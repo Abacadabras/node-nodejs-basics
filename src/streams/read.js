@@ -1,5 +1,5 @@
 import { open } from 'node:fs/promises';
-import { pipeline } from 'mode:stream/promises';
+import { pipeline } from 'node:stream/promises';
 
 
 const read = async () => {
