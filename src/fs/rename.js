@@ -7,8 +7,8 @@ const rename = async () => {
   try {
     await fs.rename(srcFile, distFile);
   } catch {
-    console.error(new Error('FS operation failed'));
-  }
+      console.error(new Error('FS operation failed'));
+    }
 };
 
 await rename();

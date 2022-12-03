@@ -9,7 +9,7 @@ const create = async () => {
     await file.writeFile(dataToFile);
   } catch (err) {
       console.error(new Error('FS operation failed'));
-  }
+    }
 };
 
 await create();

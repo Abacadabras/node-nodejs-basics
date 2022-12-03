@@ -8,7 +8,7 @@ const copy = async () => {
     await fs.cp(srcDir, distDir, { recursive: true, force: false, errorOnExist: true });
   } catch {
       console.error(new Error('FS operation failed'));
-  }
+    }
 };
 
 await copy();
