@@ -1,5 +1,14 @@
+import fs from 'node:fs/promises';
+
+
 const list = async () => {
-    // Write your code here 
+  const pathToDir = new URL('./files/', import.meta.url);
+  try {
+    const fileNames = await fs.readdir(pathToDir);
+    fileNames.forEach((fileName) => console.log(fileName));
+  } catch {
+     console.error(new Error('FS operation failed'));
+  }
 };
 
 await list();
