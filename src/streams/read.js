@@ -11,8 +11,8 @@ const read = async () => {
 
     await pipeline(readableFromFile, writableToTerminal);
   } catch (err) {
-    console.error(`Error occurred: ${err}`);
-  }
+      console.error(`Error occurred: ${err}`);
+    }
 };
 
 await read();

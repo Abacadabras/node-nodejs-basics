@@ -16,8 +16,8 @@ const write = async () => {
       if (chunkStringify.match('exit')) readableFromTerminal.unpipe(writableToFile);
     });
   } catch (err) {
-    console.error(`Error occurred: ${err}`);
-  }
+      console.error(`Error occurred: ${err}`);
+    }
 };
 
 await write();

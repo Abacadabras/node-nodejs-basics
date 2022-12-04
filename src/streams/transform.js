@@ -15,16 +15,15 @@ const transform = async () => {
         if (chunkStringify.match('exit')) {
           readableFromTerminal.unpipe(transform);
         } else {
-          const reversedChunk = chunkStringify.split('').reverse().join('');
-          cb(null, reversedChunk + '\n');
-        }
+            const reversedChunk = chunkStringify.split('').reverse().join('');
+            cb(null, reversedChunk + '\n');
+          }
       }
     });
-
     await pipeline(readableFromTerminal, transform, writableToTerminal);
   } catch (err) {
-    console.error(`Error occurred: ${err}`);
-  }
+      console.error(`Error occurred: ${err}`);
+    }
 };
 
 await transform();
