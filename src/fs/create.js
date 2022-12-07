@@ -1,15 +1,19 @@
 import { open } from 'node:fs/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
+import { errorMessage } from '../lib/errorMessage.js';
 
+
+const pathToFile = getPathToFile(import.meta.url, 'files', 'fresh.txt');
+const dataToFile = 'I am fresh and young';
 
 const create = async () => {
   try {
-    const pathToFile = new URL('./files/fresh.txt', import.meta.url);
     const file = await open(pathToFile, 'wx' );
-    const dataToFile = 'I am fresh and young';
     await file.writeFile(dataToFile);
   } catch (err) {
-      console.error(new Error('FS operation failed'));
-    }
+    console.error(err);
+    throw new Error(errorMessage);
+  }
 };
 
 await create();
