@@ -1,7 +1,10 @@
 const parseEnv = () => {
-  Object.keys(process.env).forEach((el) => {
-    if (el.includes('RSS_')) process.stdout.write(`${el}=${process.env[el]}; `);
-  });
+  const rssVariables = Object.entries(process.env).reduce((acc, [key, value]) => {
+    if (key.startsWith('RSS_')) acc.push(`${key}=${value}`);
+    return acc;
+  }, []);
+
+  console.log(rssVariables.join('; '));
 };
 
 parseEnv();
