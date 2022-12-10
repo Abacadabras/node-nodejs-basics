@@ -6,9 +6,9 @@ const pathToFile = getPathToFile( import.meta.url,'files', 'fileToWrite.txt');
 
 const write = async () => {
   const readableFromTerminal = process.stdin;
-
+  let file;
   try {
-    const file = await open(pathToFile, 'a');
+    file = await open(pathToFile, 'a');
     const writableToFile = file.createWriteStream();
 
     readableFromTerminal.pipe(writableToFile);
@@ -20,7 +20,9 @@ const write = async () => {
     });
   } catch (err) {
     throw err;
-    }
+  } finally {
+    await file?.close();
+  }
 };
 
 await write();
