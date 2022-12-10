@@ -7,12 +7,15 @@ const pathToFile = getPathToFile(import.meta.url, 'files', 'fresh.txt');
 const dataToFile = 'I am fresh and young';
 
 const create = async () => {
+  let file;
   try {
-    const file = await open(pathToFile, 'wx' );
+    file = await open(pathToFile, 'wx' );
     await file.writeFile(dataToFile);
   } catch (err) {
     console.error(err);
     throw new Error(errorMessage);
+  } finally {
+    await file?.close();
   }
 };
 
