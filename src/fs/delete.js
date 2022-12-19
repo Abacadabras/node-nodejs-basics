@@ -1,13 +1,17 @@
-import fs from 'node:fs/promises';
+import { rm } from 'node:fs/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
+import { errorMessage } from '../lib/errorMessage.js';
 
+
+const pathToFile = getPathToFile(import.meta.url, 'files', 'fileToRemove.txt');
 
 const remove = async () => {
-  const pathToFile = new URL('./files/fileToRemove.txt', import.meta.url);
   try {
-    await fs.unlink(pathToFile);
-  } catch {
-      console.error(new Error('FS operation failed'));
-    }
+    await rm(pathToFile, {recursive: true});
+  } catch (err) {
+    console.error(err);
+    throw Error(errorMessage);
+  }
 };
 
 await remove();

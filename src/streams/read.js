@@ -1,18 +1,22 @@
 import { open } from 'node:fs/promises';
-import { pipeline } from 'node:stream/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
 
+
+const pathToFile = getPathToFile( import.meta.url,'files', 'fileToRead.txt');
 
 const read = async () => {
+  let file;
   try {
-    const pathToFile = new URL('./files/fileToRead.txt', import.meta.url);
-    const file = await open(pathToFile);
-    const readableFromFile  = file.createReadStream();
+    file = await open(pathToFile);
+    const readableFromFile = file.createReadStream();
     const writableToTerminal = process.stdout;
 
-    await pipeline(readableFromFile, writableToTerminal);
+    readableFromFile.pipe(writableToTerminal);
   } catch (err) {
-      console.error(`Error occurred: ${err}`);
-    }
+    throw err;
+  } finally {
+    await file?.close();
+  }
 };
 
 await read();

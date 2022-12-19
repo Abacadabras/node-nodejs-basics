@@ -1,9 +1,10 @@
 import { fork } from 'child_process';
+import { getPathToFile } from "../lib/getPathToFile.js";
 
+
+const pathToFile =  getPathToFile( import.meta.url, 'files', 'script.js');
 
 const spawnChildProcess = async (args) => {
-
-  const pathToFile = new URL('./files/script.js', import.meta.url);
   const child = fork(pathToFile, args, { silent: true });
 
   process.stdin.pipe(child.stdin);

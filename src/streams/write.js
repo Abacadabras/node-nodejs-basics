@@ -1,11 +1,14 @@
 import { open } from 'node:fs/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
 
+
+const pathToFile = getPathToFile( import.meta.url,'files', 'fileToWrite.txt');
 
 const write = async () => {
+  const readableFromTerminal = process.stdin;
+  let file;
   try {
-    const pathToFile = new URL('./files/fileToWrite.txt', import.meta.url);
-    const file = await open(pathToFile, 'w' );
-    const readableFromTerminal  = process.stdin;
+    file = await open(pathToFile, 'a');
     const writableToFile = file.createWriteStream();
 
     readableFromTerminal.pipe(writableToFile);
@@ -16,8 +19,10 @@ const write = async () => {
       if (chunkStringify.match('exit')) readableFromTerminal.unpipe(writableToFile);
     });
   } catch (err) {
-      console.error(`Error occurred: ${err}`);
-    }
+    throw err;
+  } finally {
+    await file?.close();
+  }
 };
 
 await write();

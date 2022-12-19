@@ -1,14 +1,18 @@
-import fs from 'node:fs/promises';
+import { rename as renameFile } from 'node:fs/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
+import { errorMessage } from '../lib/errorMessage.js';
 
+
+const srcFile = getPathToFile(import.meta.url, 'files', 'wrongFilename.txt');
+const distFile = getPathToFile(import.meta.url, 'files', 'properFilename.md');
 
 const rename = async () => {
-  const srcFile = new URL('./files/wrongFilename.txt', import.meta.url);
-  const distFile = new URL('./files/properFilename.md', import.meta.url);
   try {
-    await fs.rename(srcFile, distFile);
-  } catch {
-      console.error(new Error('FS operation failed'));
-    }
+    await renameFile(srcFile, distFile);
+  } catch (err) {
+    console.error(err);
+    throw Error(errorMessage);
+  }
 };
 
 await rename();

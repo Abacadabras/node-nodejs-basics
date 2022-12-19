@@ -1,14 +1,17 @@
-import fs from 'node:fs/promises';
+import { readdir } from 'node:fs/promises';
+import { getPathToFile } from "../lib/getPathToFile.js";
+import { errorMessage } from '../lib/errorMessage.js';
 
+const pathToDir = getPathToFile(import.meta.url, 'files');
 
 const list = async () => {
-  const pathToDir = new URL('./files/', import.meta.url);
   try {
-    const fileNames = await fs.readdir(pathToDir);
-    fileNames.forEach((fileName) => console.log(fileName));
-  } catch {
-      console.error(new Error('FS operation failed'));
-    }
+    const fileNames = await readdir(pathToDir);
+    console.log({ ...fileNames });
+  } catch (err) {
+    console.error(err);
+    throw Error(errorMessage);
+  }
 };
 
 await list();
